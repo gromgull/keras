@@ -183,8 +183,8 @@ class Sequential(Model):
 
 
     def fit(self, X, y, batch_size=128, nb_epoch=100, verbose=1,
-            validation_split=0., validation_data=None, shuffle=True, show_accuracy=False):
-        
+            validation_split=0., validation_data=None, shuffle=True, show_accuracy=False, save_weights=None):
+
         X = standardize_X(X)
         y = standardize_y(y)
 
@@ -262,6 +262,9 @@ class Sequential(Model):
                 # logging
                 if verbose:
                     progbar.update(batch_end, log_values)
+
+            if save_weights:
+                self.save_weights(save_weights+'_epoch_%d'%epoch)
 
             history['epoch'].append(epoch)
             history['loss'].append(av_loss/seen)
